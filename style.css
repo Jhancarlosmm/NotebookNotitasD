@@ -1,0 +1,198 @@
+
+:root {
+    --paper-color: #f4ecd8;
+    --ink-color: #3d3d3d;
+    --accent-color: #8b4513;
+}
+
+body {
+    background-color: rgba(255, 0, 149, 0.67);
+    font-family: 'Special Elite', typewriter, serif;
+    color: var(--ink-color);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+body {
+    background-image:url(img/img-f.png); 
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;;
+}
+
+.notebook-container {
+    background-color: var(--paper-color);
+    width: 100%;
+    max-width: 800px;
+    min-height: 90vh;
+    padding: 50px;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+    position: relative;
+    background-image: radial-gradient(#dccba7 1px, transparent 1px);
+    background-size: 20px 20px; /* Simula textura leve */
+}
+
+header {
+    text-align: center;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+}
+
+.title {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+nav button {
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    font-family: 'Special Elite', serif;
+    cursor: pointer;
+    margin: 5px;
+    padding: 5px 15px;
+}
+
+.page {
+    line-height: 1.6;
+    position: relative;
+}
+
+.date {
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 1.8rem;
+    float: right;
+}
+
+.sticky-note {
+    background: #fefabc;
+    padding: 15px;
+    width: 220px;
+    /* Cambiamos a float para que el texto lo rodee o se mueva */
+    float: right; 
+    margin: 20px -40px 20px 20px; 
+    transform: rotate(3deg);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Limpiar el flujo después del artículo para que el footer no se suba */
+.page::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Efecto de quemado sutil en los bordes */
+.notebook-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 100px rgba(139, 69, 19, 0.1);
+}
+
+footer{
+   background-color: rgba(74, 32, 3, 0.1);
+   color: #8b4513;
+   text-align: center;
+   height: 70px;
+   position: absolute;
+   bottom: 0;
+   width: 800px;
+}
+
+.social-stamps {
+    position: center;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+.stamp {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: var(--ink-color);
+    border: 2px dashed var(--accent-color); /* Borde de sello */
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    transform: rotate(-5deg); /* Inclinación vintage */
+}
+
+.stamp:hover {
+    transform: scale(1.1) rotate(0deg);
+    background: var(--accent-color);
+    color: var(--paper-color);
+    border-style: solid;
+}
+
+/* Color específico sutil para no romper la estética */
+.whatsapp:hover { background-color: #25D366; border-color: #25D366; }
+.instagram:hover { background-color: #E1306C; border-color: #E1306C; }
+
+/* --- AJUSTES RESPONSIVOS --- */
+
+@media (max-width: 768px) {
+    .notebook-container {
+        padding: 25px; /* Reducimos espacio interno */
+        margin: 10px;
+        min-height: auto;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .title {
+        font-size: 2rem; /* Título más pequeño en móviles */
+    }
+
+    /* La nota adhesiva ya no flota a la derecha, se vuelve un bloque central */
+    .sticky-note {
+        position: static; /* Pierde su posición absoluta/flotante */
+        width: 100%;      /* Ocupa todo el ancho disponible */
+        margin: 30px 0;   /* Espacio arriba y abajo */
+        float: none;
+        transform: rotate(1deg); /* Rotación más sutil */
+        box-sizing: border-box;
+    }
+
+    /* Los botones de navegación pueden apilarse si son muchos */
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* Reposicionamos las redes sociales para que no tapen el texto */
+    .social-stamps {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        margin-top: 40px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .notebook-container {
+        padding: 15px;
+        border-radius: 0; /* En pantallas muy pequeñas, que ocupe todo */
+    }
+
+    .date {
+        float: none;
+        display: block;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+}
