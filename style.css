@@ -1,198 +1,259 @@
 
 :root {
-    --paper-color: #f4ecd8;
-    --ink-color: #3d3d3d;
-    --accent-color: #8b4513;
+    --paper-color: #f5e3c9;
+    --ink-color: #3d2b20;
+    --accent-color: #b35f23;
+    --accent-soft: #d68f5b;
+    --shadow-color: rgba(45, 28, 16, 0.18);
+    --background-light: #f9f3ed;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
 
 body {
-    background-color: rgba(255, 0, 149, 0.67);
-    font-family: 'Special Elite', typewriter, serif;
+    font-family: 'Special Elite', monospace, serif;
     color: var(--ink-color);
+    background: radial-gradient(circle at top left, rgba(255, 210, 160, 0.35), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(255, 190, 120, 0.18), transparent 30%),
+                linear-gradient(180deg, #f6d7b8 0%, #f4e7d2 35%, #f7f0e8 100%);
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 24px;
 }
 
-body {
-    background-image:url(img/img-f.png); 
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url('img/img-f.png');
     background-size: cover;
-    background-attachment: fixed;
-    position: relative;;
+    background-position: center;
+    opacity: 0.16;
+    pointer-events: none;
 }
 
 .notebook-container {
-    background-color: var(--paper-color);
-    width: 100%;
-    max-width: 800px;
-    min-height: 90vh;
-    padding: 50px;
-    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+    width: min(100%, 900px);
+    background-color: rgba(245, 227, 201, 0.96);
+    padding: 42px;
+    border-radius: 28px;
+    box-shadow: 0 20px 60px var(--shadow-color);
+    backdrop-filter: blur(6px);
     position: relative;
-    background-image: radial-gradient(#dccba7 1px, transparent 1px);
-    background-size: 20px 20px; /* Simula textura leve */
+    overflow: hidden;
+}
+
+.notebook-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 20%);
+    pointer-events: none;
 }
 
 header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 36px;
     text-align: center;
-    border-bottom: 2px solid rgba(0,0,0,0.1);
-    margin-bottom: 40px;
+}
+
+.header-text {
+    max-width: 700px;
+    margin: 0 auto 20px;
 }
 
 .title {
-    font-size: 3rem;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
     color: var(--accent-color);
-    margin-bottom: 10px;
+    margin: 0;
+    letter-spacing: 0.04em;
 }
 
-nav button {
-    background: transparent;
-    border: 1px solid var(--accent-color);
-    font-family: 'Special Elite', serif;
+.subtitle {
+    margin: 12px auto 0;
+    max-width: 680px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #5a3f2f;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.filters button {
+    border: 2px solid var(--accent-color);
+    background: rgba(255, 255, 255, 0.88);
+    color: var(--accent-color);
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-family: 'Special Elite', monospace, serif;
+    font-size: 1rem;
     cursor: pointer;
-    margin: 5px;
-    padding: 5px 15px;
+    transition: all 0.25s ease;
+}
+
+.filters button:hover,
+.filters button:focus {
+    background: var(--accent-color);
+    color: var(--paper-color);
+    transform: translateY(-1px);
+}
+
+.story-panel {
+    position: relative;
+    z-index: 1;
 }
 
 .page {
-    line-height: 1.6;
-    position: relative;
+    background: rgba(255, 252, 243, 0.98);
+    border: 1px solid rgba(179, 95, 35, 0.15);
+    border-radius: 22px;
+    padding: 34px 32px;
+    line-height: 1.85;
+    box-shadow: 0 18px 46px rgba(99, 56, 24, 0.12);
+    margin-bottom: 36px;
+}
+
+.page h2 {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    margin: 0 0 18px;
+    color: #8b4a1a;
+}
+
+.page p {
+    margin: 0;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    color: #4e3a2e;
 }
 
 .date {
+    display: inline-block;
     font-family: 'Reenie Beanie', cursive;
-    font-size: 1.8rem;
-    float: right;
+    font-size: 1.6rem;
+    color: #a05e33;
+    margin-bottom: 18px;
 }
 
 .sticky-note {
-    background: #fefabc;
-    padding: 15px;
-    width: 220px;
-    /* Cambiamos a float para que el texto lo rodee o se mueva */
-    float: right; 
-    margin: 20px -40px 20px 20px; 
-    transform: rotate(3deg);
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+    background: #fff7b5;
+    border: 1px solid #f0dfa5;
+    width: min(240px, 100%);
+    padding: 18px;
+    margin: 26px 0 0 auto;
+    transform: rotate(2deg);
+    box-shadow: 0 16px 30px rgba(117, 67, 23, 0.12);
     font-family: 'Reenie Beanie', cursive;
-    font-size: 1.5rem;
-    position: relative;
-    z-index: 10;
-}
-
-/* Limpiar el flujo después del artículo para que el footer no se suba */
-.page::after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-/* Efecto de quemado sutil en los bordes */
-.notebook-container::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none;
-    box-shadow: inset 0 0 100px rgba(139, 69, 19, 0.1);
-}
-
-footer{
-   background-color: rgba(74, 32, 3, 0.1);
-   color: #8b4513;
-   text-align: center;
-   height: 70px;
-   position: absolute;
-   bottom: 0;
-   width: 800px;
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: #5d3a09;
 }
 
 .social-stamps {
-    position: center;
-    bottom: 30px;
-    right: 30px;
     display: flex;
-    gap: 15px;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin: 0 auto 28px;
+    position: relative;
+    z-index: 1;
 }
 
 .stamp {
-    width: 50px;
-    height: 50px;
-    display: flex;
+    width: 56px;
+    height: 56px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--ink-color);
-    border: 2px dashed var(--accent-color); /* Borde de sello */
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    transform: rotate(-5deg); /* Inclinación vintage */
+    border: 2px dashed var(--accent-color);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.94);
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
 
 .stamp:hover {
-    transform: scale(1.1) rotate(0deg);
+    transform: translateY(-2px) scale(1.05);
     background: var(--accent-color);
     color: var(--paper-color);
     border-style: solid;
 }
 
-/* Color específico sutil para no romper la estética */
 .whatsapp:hover { background-color: #25D366; border-color: #25D366; }
 .instagram:hover { background-color: #E1306C; border-color: #E1306C; }
 
-/* --- AJUSTES RESPONSIVOS --- */
+footer {
+    text-align: center;
+    color: #7a4e33;
+    font-size: 0.95rem;
+    padding: 18px 10px 10px;
+    border-top: 1px solid rgba(179, 95, 35, 0.12);
+    position: relative;
+    z-index: 1;
+}
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
     .notebook-container {
-        padding: 25px; /* Reducimos espacio interno */
-        margin: 10px;
-        min-height: auto;
-        box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+        padding: 32px;
     }
 
-    .title {
-        font-size: 2rem; /* Título más pequeño en móviles */
+    .page {
+        padding: 28px 24px;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 16px;
     }
 
-    /* La nota adhesiva ya no flota a la derecha, se vuelve un bloque central */
+    .notebook-container {
+        border-radius: 22px;
+        padding: 24px;
+    }
+
+    .filters button {
+        flex: 1 1 48%;
+    }
+
     .sticky-note {
-        position: static; /* Pierde su posición absoluta/flotante */
-        width: 100%;      /* Ocupa todo el ancho disponible */
-        margin: 30px 0;   /* Espacio arriba y abajo */
-        float: none;
-        transform: rotate(1deg); /* Rotación más sutil */
-        box-sizing: border-box;
-    }
-
-    /* Los botones de navegación pueden apilarse si son muchos */
-    nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    /* Reposicionamos las redes sociales para que no tapen el texto */
-    .social-stamps {
-        position: relative;
-        bottom: 0;
-        right: 0;
-        margin-top: 40px;
-        justify-content: center;
+        width: 100%;
+        margin: 24px 0 0 0;
+        transform: rotate(0deg);
     }
 }
 
 @media (max-width: 480px) {
-    .notebook-container {
-        padding: 15px;
-        border-radius: 0; /* En pantallas muy pequeñas, que ocupe todo */
+    .title {
+        font-size: 2.4rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .page {
+        padding: 22px 18px;
     }
 
     .date {
-        float: none;
         display: block;
-        margin-bottom: 10px;
-        text-align: left;
+        margin-bottom: 14px;
     }
 }

@@ -7,63 +7,38 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Reenie+Beanie&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
     <div class="notebook-container">
         <header>
-            <h1 class="title">Notitas Diarias</h1>
-            <h3>Por @mabel_Ilin__</h3>
-            <nav>
-                <button onclick="filter('poesia')">Poesía</button>
-                <button onclick="filter('diario')">Diario</button>
+            <div class="header-text">
+                <h1 class="title">Notitas Diarias</h1>
+                <h3>Por @mabel_Ilin__</h3>
+                <p class="subtitle">Un rincón de tinta cálida para inspirar cada día con versos, recuerdos y pequeños secretos.</p>
+            </div>
+            <nav class="filters">
+                <button type="button" onclick="filter('poesia')">Poesía</button>
+                <button type="button" onclick="filter('diario')">Diario</button>
             </nav>
         </header>
 
-        <main id="story-container">
+        <main id="story-container" class="story-panel">
             <article class="page">
                 <span class="date">21 de Enero, 2026</span>
                 <h2>El Eco del Tintero</h2>
-                <p>Las palabras parecen cobrar vida propia bajo la luz de la vela. Hay algo en la textura del papel que invita a la confesión...
-                A veces, el silencio es más ruidoso que cualquier estruendo, y aquí, entre estas páginas amarillentas, el silencio es el rey absoluto.</p>
-                
-                <div class="sticky-note">
-                    Recordar: Revisar el capítulo sobre los sueños perdidos.
-                </div>
+                <p>Las palabras parecen cobrar vida propia bajo la luz de la vela. Hay algo en la textura del papel que invita a la confesión. A veces, el silencio es más ruidoso que cualquier estruendo, y aquí, entre estas páginas amarillentas, el silencio es el rey absoluto.</p>
+                <div class="sticky-note">Recordar: Revisar el capítulo sobre los sueños perdidos.</div>
             </article>
         </main>
-        <br>
-        <br>
-        <br>
-        <br>
-        <main id="story-container">
-            <article class="page">
-                <span class="date">21 de Enero, 2026</span>
-                <h2>El Eco del espacio</h2>
-                <p>Las palabras parecen cobrar vida propia bajo la luz de la vela. Hay algo en la textura del papel que invita a la confesión...
-                A veces, el silencio es más ruidoso que cualquier estruendo, y aquí, entre estas páginas amarillentas, el silencio es el rey absoluto.</p>
-                
-                <div class="sticky-note">
-                    Recordar: Revisar el capítulo anterior.
-                </div>
-            </article>
-        </main>
-        <br>
-        <main>
-           <div class="social-stamps">
-                <a href="https://whatsapp.com/channel/0029VaezdgqBfxnxMNM0Y112" target="_blank" class="stamp whatsapp">
-                <i class="fab fa-whatsapp"></i>
-        </a>
-           <a href="https://www.instagram.com/mabel_llin__?igsh=dzNreWl2OWUzamJz" target="_blank" class="stamp instagram">
-           <i class="fab fa-instagram"></i>
-        </a>
-      </div>
-        </main>
-       <br>
-       <br>
+
+        <section class="social-stamps">
+            <a href="https://whatsapp.com/channel/0029VaezdgqBfxnxMNM0Y112" target="_blank" class="stamp whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/mabel_llin__?igsh=dzNreWl2OWUzamJz" target="_blank" class="stamp instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </section>
+
         <footer>
-            <p>Escrito con tinta y alma; @mabel_Ilin__ &copy; 2026</p>
+            <p>Escrito con tinta y alma · @mabel_Ilin__ · 2026</p>
         </footer>
     </div>
 
