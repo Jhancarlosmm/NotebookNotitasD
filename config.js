@@ -1,0 +1,1 @@
+window.NOTEBOOK_CSV_URL = '';

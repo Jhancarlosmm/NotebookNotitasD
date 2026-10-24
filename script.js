@@ -29,20 +29,32 @@ const contenidos = {
     ]
 };
 
+let categoriaActual = 'poesia';
+
+function escaparHTML(value) {
+    return String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    })[character]);
+}
+
 function generarArticulo(entry) {
+    const texto = escaparHTML(entry.texto).replace(/&lt;br\s*\/?&gt;/gi, '<br>').replace(/\r?\n/g, '<br>');
     return `
         <article class="page">
-            <span class="date">${entry.fecha}</span>
-            <h2>${entry.titulo}</h2>
-            <p>${entry.texto}</p>
-            <div class="sticky-note">
-                ${entry.nota}
-            </div>
+            <span class="date">${escaparHTML(entry.fecha)}</span>
+            <h2>${escaparHTML(entry.titulo)}</h2>
+            <p>${texto}</p>
+            ${entry.nota ? `<div class="sticky-note">${escaparHTML(entry.nota)}</div>` : ''}
         </article>
     `;
 }
 
 function filter(category) {
+    categoriaActual = category;
     const container = document.getElementById('story-container');
     const data = contenidos[category] || [];
     const botones = document.querySelectorAll('.filters button');
@@ -62,8 +74,92 @@ function filter(category) {
     }, 300);
 }
 
+function analizarCSV(csv) {
+    const rows = [];
+    let row = [];
+    let field = '';
+    let quoted = false;
+
+    for (let index = 0; index < csv.length; index += 1) {
+        const character = csv[index];
+        if (character === '"' && quoted && csv[index + 1] === '"') {
+            field += '"';
+            index += 1;
+        } else if (character === '"') {
+            quoted = !quoted;
+        } else if (character === ',' && !quoted) {
+            row.push(field.trim());
+            field = '';
+        } else if ((character === '\n' || character === '\r') && !quoted) {
+            if (character === '\r' && csv[index + 1] === '\n') index += 1;
+            row.push(field.trim());
+            if (row.some(Boolean)) rows.push(row);
+            row = [];
+            field = '';
+        } else {
+            field += character;
+        }
+    }
+
+    row.push(field.trim());
+    if (row.some(Boolean)) rows.push(row);
+    if (rows.length < 2) return [];
+
+    const normalize = value => value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const headers = rows[0].map(value => normalize(value.replace(/^\uFEFF/, '')));
+    const column = name => headers.indexOf(name);
+    const categoryColumn = column('categoria');
+    const titleColumn = column('titulo');
+    const dateColumn = column('fecha');
+    const textColumn = column('texto');
+    const noteColumn = column('nota');
+
+    if ([categoryColumn, titleColumn, dateColumn, textColumn].some(index => index < 0)) return [];
+
+    return rows.slice(1).map(values => ({
+        categoria: (values[categoryColumn] || '').toLowerCase(),
+        titulo: values[titleColumn] || '',
+        fecha: values[dateColumn] || '',
+        texto: values[textColumn] || '',
+        nota: noteColumn < 0 ? '' : values[noteColumn] || ''
+    })).filter(entry => ['poesia', 'diario'].includes(entry.categoria) && entry.titulo && entry.texto);
+}
+
+async function sincronizarContenido() {
+    const status = document.getElementById('sync-status');
+    const csvUrl = window.NOTEBOOK_CSV_URL;
+    if (!csvUrl) {
+        status.textContent = 'Mostrando contenido guardado';
+        return;
+    }
+
+    try {
+        const response = await fetch(csvUrl, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const entries = analizarCSV(await response.text());
+        if (!entries.length) throw new Error('No se encontraron publicaciones válidas');
+
+        ['poesia', 'diario'].forEach(category => {
+            contenidos[category] = entries.filter(entry => entry.categoria === category).map(entry => ({
+                titulo: entry.titulo,
+                fecha: entry.fecha,
+                texto: entry.texto,
+                nota: entry.nota
+            }));
+        });
+
+        status.textContent = `Contenido sincronizado · ${new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })}`;
+        filter(categoriaActual);
+    } catch (error) {
+        console.error('No se pudo sincronizar el contenido:', error);
+        status.textContent = 'Sin conexión; se conserva el contenido disponible';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     filter('poesia');
+    sincronizarContenido();
+    window.setInterval(sincronizarContenido, 60_000);
 });
 
 document.querySelector('.whatsapp').addEventListener('click', () => {
